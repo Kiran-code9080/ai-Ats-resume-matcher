@@ -1,0 +1,16 @@
+<section class="home-section">
+  <div class="profile-card">
+    <div class="profile-image">
+      <% if (user.profileImage) { %>
+        <img src="/uploads/<%= user.profileImage %>" alt="<%= user.name %>" />
+      <% } else { %>
+        <img src="/images/default-avatar.png" alt="Default Avatar" />
+      <% } %>
+    </div>
+
+    <div class="profile-info">
+      <h1><%= user.name %></h1>
+      <p><strong>Email:</strong> <%= user.email %></p>
+    </div>
+  </div>
+</section>

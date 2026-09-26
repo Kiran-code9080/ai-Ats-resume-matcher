@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>🔐 Login</h1>
+
+    <% if (error) { %>
+      <div class="card" style="border-left: 5px solid #dc3545; color: #b02a37;">
+        <%= error %>
+      </div>
+    <% } %>
+
+    <form action="/login" method="POST" class="card" novalidate>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <label for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        name="email"
+        required
+        autocomplete="email"
+        autofocus
+      />
+
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        name="password"
+        required
+        autocomplete="current-password"
+      />
+
+      <button type="submit" class="btn">Login</button>
+    </form>
+
+    <p style="text-align:center;">
+      New here? <a href="/register">Create an account</a>
+    </p>
+  </main>
+</body>
+</html>

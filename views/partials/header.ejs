@@ -1,0 +1,19 @@
+<header class="main-header">
+  <div class="container header-container">
+    <div class="logo">
+      <img src="/images/logo.jpg" alt="Logo" class="logo-img" />
+      <h1>Resume Matcher</h1>
+    </div>
+
+    <nav class="nav-links">
+      <a href="/home" class="<%= activePage === 'home' ? 'active' : '' %>">Home</a>
+      <a href="/profile" class="<%= activePage === 'profile' ? 'active' : '' %>">Profile</a>
+      <a href="/history" class="<%= activePage === 'history' ? 'active' : '' %>">History</a>
+      <a href="/settings" class="<%= activePage === 'settings' ? 'active' : '' %>">Settings</a>
+    </nav>
+
+    <div class="logout-btn">
+      <a href="/logout" class="btn btn-danger">Logout</a>
+    </div>
+  </div>
+</header>

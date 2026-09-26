@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Resume Matcher</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="container">
+    <h1>📄 Resume Matcher</h1>
+
+    <% if (locals.error) { %>
+      <div class="card" style="border-left: 5px solid #dc3545; color: #b02a37;">
+        <%= error %>
+      </div>
+    <% } %>
+
+    <!-- Upload Form -->
+    <form action="/match" method="POST" enctype="multipart/form-data" class="card">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <label for="resume">Upload Resume (PDF only):</label>
+      <input type="file" id="resume" name="resume" accept="application/pdf" required>
+
+      <label for="job_desc">Job Description:</label>
+      <textarea id="job_desc" name="job_desc" rows="6" required></textarea>
+
+      <button type="submit" class="btn">Match Resume</button>
+    </form>
+
+    <!-- Match Results -->
+    <% if (score !== null) { %>
+      <section class="card">
+        <h2>Match Result</h2>
+        <p class="score <%= score >= 75 ? 'high' : score >= 50 ? 'medium' : 'low' %>">
+          <strong>Similarity Score:</strong> <%= score %>%
+        </p>
+
+        <h3>Feedback:</h3>
+        <ul>
+          <% feedback.forEach(item => { %>
+            <li><%= item %></li>
+          <% }) %>
+        </ul>
+
+        <h3>Job Description Highlighted:</h3>
+        <pre class="jobdesc"><%= highlightedJD %></pre>
+
+        <h3>Present Skills:</h3>
+        <ul>
+          <% presentSkills.forEach(skill => { %>
+            <li class="matched"><%= skill %></li>
+          <% }) %>
+        </ul>
+
+        <h3>Missing Skills:</h3>
+        <ul>
+          <% missingSkills.forEach(skill => { %>
+            <li class="missing"><%= skill %></li>
+          <% }) %>
+        </ul>
+      </section>
+    <% } %>
+  </main>
+</body>
+</html>

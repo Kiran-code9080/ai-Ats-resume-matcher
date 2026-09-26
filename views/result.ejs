@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>📊 Resume Match Result</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    /* === Resume Score Circle === */
+    .score-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0 30px;
+      position: relative;
+    }
+
+    .circle-progress {
+      --progress: 0deg;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: conic-gradient(#06b6d4 var(--progress), #e2e8f0 var(--progress));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: background 0.4s ease;
+    }
+
+    .circle-progress::before {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    #circle-text {
+      position: relative;
+      font-size: 38px;
+      font-weight: 700;
+      color: #475569;
+      z-index: 2;
+    }
+
+    .sparkle {
+      position: absolute;
+      right: -35px;
+      bottom: 25px;
+      font-size: 30px;
+      color: #facc15;
+      animation: sparkle 1.5s ease-in-out infinite alternate;
+      transform-origin: center;
+    }
+
+    @keyframes sparkle {
+      from {
+        opacity: 0.7;
+        transform: scale(0.9) rotate(8deg);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1.2) rotate(-8deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <h1>📊 Resume Match Result</h1>
+
+    <!-- === Score Circle === -->
+    <div class="card" style="text-align:center;">
+      <h2>Similarity Score</h2>
+      <div class="score-wrapper">
+        <div class="circle-progress" id="circle">
+          <span id="circle-text">0%</span>
+        </div>
+        
+      </div>
+    </div>
+
+    <!-- === Feedback Section === -->
+    <div class="card">
+      <h3>Feedback</h3>
+      <% if (feedback && feedback.length) { %>
+        <ul>
+          <% feedback.forEach(item => { %>
+            <li><%= item %></li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <p>No feedback available.</p>
+      <% } %>
+    </div>
+
+    <!-- === Matched Skills === -->
+    <div class="card">
+      <h3>Matched Skills ✅</h3>
+      <% if (presentSkills && presentSkills.length) { %>
+        <ul>
+          <% presentSkills.forEach(skill => { %>
+            <li class="matched"><%= skill %></li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <p>No matched skills found.</p>
+      <% } %>
+    </div>
+
+    <!-- === Missing Skills === -->
+    <div class="card">
+      <h3>Missing Skills ❌</h3>
+      <% if (missingSkills && missingSkills.length) { %>
+        <ul>
+          <% missingSkills.forEach(skill => { %>
+            <li class="missing"><%= skill %></li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <p>No missing skills 🎉</p>
+      <% } %>
+    </div>
+
+    <!-- === Job Description Section === -->
+    <div class="card">
+      <h3>Job Description (Highlighted)</h3>
+      <% if (feedback && feedback.length) { %>
+        <ul>
+          <% feedback.forEach(item => { %>
+            <li><%= item %></li>
+          <% }) %>
+        </ul>
+      <% } %>
+      <div class="jobdesc"><%- highlightedJD %></div>
+    </div>
+
+    <!-- === Buttons === -->
+    <div style="text-align:center; margin-top:20px;">
+      <a href="/match" class="btn">🔄 Try Again</a>
+      <a href="/history" class="btn success">📜 View History</a>
+    </div>
+  </main>
+
+  <!-- === JS Animation === -->
+  <script>
+    const circle = document.getElementById("circle");
+    const circleText = document.getElementById("circle-text");
+    const score = parseInt("<%= score %>") || 0;
+    let current = 0;
+
+    const animateCircle = setInterval(() => {
+      if (current <= score) {
+        const progress = (current / 100) * 360;
+        circle.style.setProperty("--progress", progress + "deg");
+        circleText.textContent = current + "%";
+        current++;
+      } else {
+        clearInterval(animateCircle);
+      }
+    }, 20);
+  </script>
+</body>
+</html>

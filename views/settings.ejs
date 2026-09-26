@@ -1,0 +1,138 @@
+<section class="home-section">
+  <h1>⚙️ Settings</h1>
+
+  <% if (locals.error) { %>
+    <div class="card" style="border-left: 5px solid #dc3545; color: #b02a37; margin-bottom: 15px; padding: 15px; background: #f8d7da; border-radius: 6px;">
+      <%= error %>
+    </div>
+  <% } %>
+
+  <!-- ===== Personal Details Section ===== -->
+  <div class="settings-section">
+    <button type="button" class="section-toggle">👤 Personal Details</button>
+    <div class="section-content">
+      <form class="settings-form" method="POST" action="/settings/update-profile" enctype="multipart/form-data">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <!-- Profile Image Preview -->
+        <div class="profile-image-preview">
+          <% if (user.profileImage) { %>
+            <img src="/uploads/<%= user.profileImage %>" alt="Profile Image" class="profile-img" />
+          <% } else { %>
+            <p>No profile image uploaded</p>
+          <% } %>
+        </div>
+
+        <label for="profileImage">Upload Profile Image</label>
+        <input type="file" id="profileImage" name="profileImage" accept="image/*" />
+
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" value="<%= user.name %>" required />
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="<%= user.email %>" required />
+
+        <button type="submit" class="btn success">Save Personal Details</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== Change Password Section ===== -->
+  <div class="settings-section">
+    <button type="button" class="section-toggle">🔑 Change Password</button>
+    <div class="section-content">
+      <form class="settings-form" method="POST" action="/settings/change-password">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <label for="currentPassword">Current Password</label>
+        <input type="password" id="currentPassword" name="currentPassword" required />
+
+        <label for="newPassword">New Password</label>
+        <input type="password" id="newPassword" name="newPassword" required />
+
+        <label for="confirmPassword">Confirm New Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required />
+
+        <button type="submit" class="btn warning">Update Password</button>
+      </form>
+    </div>
+  </div>
+
+</section>
+
+<style>
+  .settings-section {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #f9f9f9;
+    overflow: hidden;
+  }
+
+  .section-toggle {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    background: #eee;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .section-toggle:hover {
+    background: #ddd;
+  }
+
+  .section-content {
+    display: none;
+    padding: 20px;
+  }
+
+  .settings-form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .settings-form label {
+    margin-top: 10px;
+    font-weight: 600;
+  }
+
+  .settings-form input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+
+  .settings-form button {
+    margin-top: 15px;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  .btn.success { background-color: #28a745; color: #fff; }
+  .btn.warning { background-color: #2f6ec0; color: #fff; }
+
+  .profile-image-preview img.profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+    margin-bottom: 10px;
+  }
+</style>
+
+<script>
+  // Toggle sections open/close
+  const toggles = document.querySelectorAll('.section-toggle');
+  toggles.forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      const content = toggle.nextElementSibling;
+      content.style.display = content.style.display === 'block' ? 'none' : 'block';
+    });
+  });
+</script>
